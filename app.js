@@ -1,10 +1,23 @@
 const Axios = require('Axios');
 const Fs = require('fs');
 const Path = require('path');
+const { performance } = require('perf_hooks');
+
+if (!Fs.existsSync('./config.json')) {
+  const configData = {
+    'prefix': 'put prefix here',
+    'token': 'token goes here'
+  };
+  Fs.writeFileSync('./config.json', JSON.stringify(configData));
+  process.exit();
+}
+
 const Config = require('./config.json');
 const prefix = Config.prefix;
 const token = Config.token;
-const { performance } = require('perf_hooks');
+
+Axios.get('https://discordapp.com/api/v6/users/@me', {headers: {Authorization: token}})
+  .catch(err => { if (err.response.status == 401) console.log('Invalid Token, check "config.json".'); });
 
 const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
