@@ -34,10 +34,9 @@ function getEmojis (info) {
   Axios.get('https://discord.com/api/v6/guilds/' + id + '/emojis', info.config)
     .then(res => {
       if (res.data[0] == undefined) {
-        console.log("This server doesn't have any emojis.");
-        Axios.post('https://discordapp.com/api/v6/channels/' + info.info.channel_id + '/messages', {content: `This server doesn't have and emojis.`}, info.config)
+        Axios.post(`https://discordapp.com/api/v6/channels/${info.info.channel_id}/messages`, {content: `This server doesn't have and emojis.`}, info.config)
           .then(res => {
-            // console.log('');
+            console.log("This server doesn't have any emojis.");
           }, err => {
             console.log(err);
           });

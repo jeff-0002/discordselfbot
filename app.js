@@ -6,7 +6,8 @@ const { performance } = require('perf_hooks');
 if (!Fs.existsSync('./config.json')) {
   const configData = {
     'prefix': 'put prefix here',
-    'token': 'token goes here'
+    'token': 'token goes here',
+    'embedcolor': 3578955
   };
   Fs.writeFileSync('./config.json', JSON.stringify(configData));
   process.exit();
@@ -15,6 +16,7 @@ if (!Fs.existsSync('./config.json')) {
 const Config = require('./config.json');
 const prefix = Config.prefix;
 const token = Config.token;
+const embedColor = Config.embedcolor;
 
 Axios.get('https://discordapp.com/api/v6/users/@me', {headers: {Authorization: token}})
   .catch(err => { if (err.response.status == 401) console.log('Invalid Token, check "config.json".'); });
@@ -46,12 +48,12 @@ let config = {
 };
 
 function checkMsg (command, info, args, websocket) {
-  if (command == 'help' && args[0] == undefined) {
+  if (command == 'help' && !args[0]) {
     data.embed = {
       title: 'Help Menu',
       type: 'rich',
       fields: [],
-      color: 3578955,
+      color: embedColor,
       footer: {text: `Type '${prefix}help <command>' to show details.`}
     };
     let i = 0;
@@ -76,7 +78,7 @@ function checkMsg (command, info, args, websocket) {
             title: `Command: ${file.replace('.js', '')}`,
             type: 'rich',
             fields: [{name: 'Description', value: exportedFunction.description}, {name: 'Usages', value: `${prefix}${exportedFunction.usages}`}, {name: 'Usage examples', value: ''}],
-            color: 3578955,
+            color: embedColor,
             footer: {text: '<> fields are required. [] fields are optional.'}
           };
           // console.log(data.embed.fields[2]);
@@ -98,7 +100,8 @@ function checkMsg (command, info, args, websocket) {
                 args,
                 config,
                 token,
-                websocket
+                websocket,
+                embedColor
               };
               exportedFunction.run(information);
             }

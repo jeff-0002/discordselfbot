@@ -15,7 +15,7 @@ function tokenInfo (info) {
                         **Email** - ${res.data.email}
                         **Email Verified** - ${res.data.verified}
                         **2-Factor Auth** - ${res.data.mfa_enabled}`,
-          color: 3578955,
+          color: info.embedColor,
           thumbnail: {url: `https://cdn.discordapp.com/avatars/${res.data.id}/${res.data.avatar}`}
         };
         Axios.post(`https://discordapp.com/api/v6/channels/${info.info.channel_id}/messages`, {embed: embedinfo}, info.config)

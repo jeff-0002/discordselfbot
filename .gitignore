@@ -2,8 +2,6 @@ logs.json
 config.json
 package-lock.json
 .jshintrc
-.gitignore
-
 # Logs
 logs
 *.log
